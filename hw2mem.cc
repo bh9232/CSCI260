@@ -30,11 +30,11 @@ int main() {
   // cout<< sizeof(*b) << "\n"; //MOD 32B
   // cout<< sizeof(*c) << "\n"; //MOD 8B
   q = (int *) &foo;    cout<< q << "\n";
-  // p=&(foo.x[100]);        cout << *p << " " << p << "\n"; //MOD
-  // p=&(foo.x[99]);       cout << *p << " " << p << "\n"; //MOD
-  // p=&(foo.x[50]);       cout << *p << " " << p << "\n"; //MOD
-  // p=&(foo.x[1]);       cout << *p << " " << p << "\n"; //MOD
-  // p=&(foo.x[0]);       cout << *p << " " << p << "\n"; //MOD
+  // p=&(foo.x[100]);        cout << *p << " " << p << "\n"; //MOD Q3
+  // p=&(foo.x[99]);       cout << *p << " " << p << "\n"; //MOD Q3
+  // p=&(foo.x[50]);       cout << *p << " " << p << "\n"; //MOD Q3
+  // p=&(foo.x[1]);       cout << *p << " " << p << "\n"; //MOD Q3
+  // p=&(foo.x[0]);       cout << *p << " " << p << "\n"; //MOD Q3
   p=&(foo.x[5]);       cout<< *p << "\n"; //MOD
 
   // POINT 1
