@@ -49,8 +49,8 @@ int main() {
   q = p+98;            cout<< *q << "\n";
   i = ((long) p) + 17;
   q = (int *) i;       cout<< *q << "\n";
-  q = p + 101;     cout<< *q << "\n"; //MOD
-  q = (int *) (((long) p) + 404);  cout<< *q << "\n";  //MOD
+  q = p + 101;     cout<< *q << "\n"; //MOD Q6
+  q = (int *) (((long) p) + 404);  cout<< *q << "\n";  //MOD Q6
   p = (int *) bar;
   // cout << p-&bar[8].var1 << "\n"; //Q7
   *(p + 988) = 500; cout<< bar[8].var1 << "\n"; //MOD
