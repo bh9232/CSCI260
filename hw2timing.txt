@@ -29,10 +29,13 @@ LoopCPUtime = .0075 + .006 = .0135us
 TotalCPUtime = .0025+.0135 = 0.016us
 
 
+
 SingleCPUtime = .0025us
 RIJCPUtime = .0075us
-BranchCPUtime = 4*(N+1)/(2*10^9)
-LoopCPUtime = RIJCPUtime + (6CPI*(N+1))/(2*10^9Hz)
+BranchCPUtime = (6CPI*(N+1))/(2*10^9Hz) * (10^-6) = 6*(N+1)/(2*10^3)
+LoopCPUtime = RIJCPUtime + (6CPI*(N+1))/(2*10^3Hz)
+
+
 80us = SingleCPUtime + RIJCPUtime + 6CPI*(N+1)/(2*10^9Hz) 
--> N = (2*10^9Hz)(80us-SingleCPUtime-RIJCPUtime)/4CPI - 1
-N = (2*10^9)(80-.0025-.0075)/6 - 1 = 
+-> N = (2*10^3Hz)(80us-SingleCPUtime-RIJCPUtime)/6CPI - 1
+N = (2*10^3)(80-.0025-.0075)/6 - 1 = 26332.33333 -> 26332
