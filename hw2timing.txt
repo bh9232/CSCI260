@@ -18,24 +18,25 @@ Single cycles = 5 cycles
 SingleCPUtime = 5/(2*10^9) = 2.5*10^-9s = 0.0025us
 #loop constant
 r-type = 2CPI * 1 instr = 2 cycles
-i-type = 3CPI * 3 instr = 9 cycles
+i-type = 3CPI * 1 instr = 3 cycles
+mem-type = 5CPI * 2 instr = 10 cycles
 j-type = 4CPI * 1 instr = 4 cycles
-RIJcycles = 2+9+4 = 15 cycles
-RIJCPUtime = 15/(2*10^9) = 7.5*10^-9s = 0.0075us
+RIJcycles = 2+3+10+4 = 19 cycles
+RIJCPUtime = 19/(2*10^9) = 9.5*10^-9s = 0.0095us
 #loop var
 branch-type = 6CPI * N+1 instr = 12 cycles
 BranchCPUtime = 12/(2*10^9) = 6*10^-9s = 0.006us
-LoopCPUtime = .0075 + .006 = .0135us
-TotalCPUtime = .0025+.0135 = 0.016us
+LoopCPUtime = .0095 + .006 = .0155us
+TotalCPUtime = .0025+.0155 = 0.018us
 
 
 
 SingleCPUtime = .0025us
-RIJCPUtime = .0075us
+RIJCPUtime = .0095us
 BranchCPUtime = (6CPI*(N+1))/(2*10^9Hz) * (10^-6) = 6*(N+1)/(2*10^3)
 LoopCPUtime = RIJCPUtime + (6CPI*(N+1))/(2*10^3Hz)
 
 
 80us = SingleCPUtime + RIJCPUtime + 6CPI*(N+1)/(2*10^9Hz) 
 -> N = (2*10^3Hz)(80us-SingleCPUtime-RIJCPUtime)/6CPI - 1
-N = (2*10^3)(80-.0025-.0075)/6 - 1 = 26332.33333 -> 26332
+N = (2*10^3)(80-.0025-.0095)/6 - 1 = 26661.6666 -> 26662
