@@ -1,18 +1,18 @@
 Minsky
 
-mask:		.word	0xfffff83f		
+mask:		.word	0xfffff83f		#mask->0xfffff83f
 start:	la	$t0,mask		#t0<-0xfffff83f
 		lw	$t0,0($t0)		#t0<-value of 0xfffff83f
-		la 	$t3,shftr		#t3<-load shftr instr
-		lw	$t3,0($t3)		#t3<-clear imm. shamt (based on shftr:)
-		and	$t3,$t3,$t0		#t3<-clear shamt in t3 (t5 shftr instr->t3)
-		andi	$t2,$t2,0x001f	#t2<-clear all bits but the 5 lsb
-		sll	$t2,$t2,6		#t2<-Lshamt(t2,6)
-		or	$t3,$t3,$t2		#t3<-set shamt in t3 as t2
-		la	$t5,shftr		#t5<-load shftr instr 
-		sw	$t3,0($t5)		#t3<-store shftr instr
-shftr:	sll	$t3,$t1,0		#t3<-Lshamt(t1,0)
+		la 	$t3,shftr		#t3<-load addr of shftr
+		lw	$t3,0($t3)		#t3<-value of shftr (t3<-t1)
+		and	$t3,$t3,$t0		#t3<-t1&t0
+		andi	$t2,$t2,0x001f	#t2<-clear all bits except the 5 lsb
+		sll	$t2,$t2,6		#t2<-t2<<6
+		or	$t3,$t3,$t2		#t3<-(t1&t0)|t2
+		la	$t5,shftr		#t5<-addr of shftr
+		sw	$t3,0($t5)		#t3<-addr of t5
+shftr:	sll	$t3,$t1,0		#t3<-t1<<0
 
-foo is shifting the 5 least significant bits left by 6 bits initially and t2 bits later.
+foo is using the register t3 to store the result of the data manipulation or  with register t2's 5 lsb after a left shift by 6 bits and the result of register t1 & register t0. Then with the modified registers t2,t3 store the modified shftr instruction into register t5 and store t5 into t3. 
 
-One reason that self-modifying code is a bad idea is because if there is an issue, troubleshooting and debugging will be difficult.
+One reason that self-modifying code is a bad idea is because if there is an issue, troubleshooting and debugging will be difficult since it is harder to find the problem.
