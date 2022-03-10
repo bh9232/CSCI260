@@ -13,6 +13,6 @@ start:	la	$t0,mask		#t0<-0xfffff83f
 		sw	$t3,0($t5)		#t5<-store addr of t3
 shftr:	sll	$t3,$t1,0		#t3<-t1<<0
 
-foo is storing the register t3 into memory, which is storing the result of data manipulation with the registers t0, t1, and t2. Then register t5 store t3 and t3 becomes updated back to t1.
+foo is storing the register t3 into register t5, which is storing the result of data manipulation with the registers t0, t1, and t2. Then t3 becomes updated back to t1.
 
 One reason that self-modifying code is a bad idea is because if there is an issue, troubleshooting and debugging will be difficult since it is harder to find the problem.
