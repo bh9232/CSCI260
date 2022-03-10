@@ -1,0 +1,14 @@
+Minsky
+
+mask:		.word	0xFFFFF83F		#
+start:	la	$t0,mask		#
+		lw	$t0,0($t0)		#
+		la 	$t3,shftr		#
+		lw	$t3,0($t3)		#
+		and	$t3,$t3,$t0		#
+		andi	$t2,$t2,0x001f	#
+		sll	$t2,$t2,6		#
+		or	$t3,$t3,$t2		#
+		la	$t5,shftr		#
+		sw	$t3,0($t5)		#
+shftr:	sll	$t3,$t1,0		#
