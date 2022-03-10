@@ -4,15 +4,15 @@ mask:		.word	0xfffff83f
 start:	la	$t0,mask		#t0<-0xfffff83f
 		lw	$t0,0($t0)		#t0<-value of 0xfffff83f
 		la 	$t3,shftr		#t3<-load shftr instr
-		lw	$t3,0($t3)		#t3<-clear shamt
-		and	$t3,$t3,$t0		#t3<-clear shamt in shftr instr
-		andi	$t2,$t2,0x001f	#t2<-clear all bits but the 5 least sig. bits
+		lw	$t3,0($t3)		#t3<-clear imm. shamt (based on shftr:)
+		and	$t3,$t3,$t0		#t3<-clear shamt in t3 (t5 shftr instr->t3)
+		andi	$t2,$t2,0x001f	#t2<-clear all bits but the 5 lsb
 		sll	$t2,$t2,6		#t2<-Lshamt(t2,6)
-		or	$t3,$t3,$t2		#t3<-set shamt in shftr instr as t2
+		or	$t3,$t3,$t2		#t3<-set shamt in t3 as t2
 		la	$t5,shftr		#t5<-load shftr instr 
 		sw	$t3,0($t5)		#t3<-store shftr instr
 shftr:	sll	$t3,$t1,0		#t3<-Lshamt(t1,0)
 
-foo is shifting the 5 least significant bits and is modifying the instructions to perform the shifts.
+foo is shifting the 5 least significant bits left by 6 bits initially and t2 bits later.
 
 One reason that self-modifying code is a bad idea is because if there is an issue, troubleshooting and debugging will be difficult.
