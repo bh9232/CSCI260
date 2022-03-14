@@ -17,7 +17,7 @@ sw $t1,-40($fp)		#junk[1]<-1
 ...
 addi $t1,$t1,1  	#t1<-9
 sw $t1,-8($fp)		#junk[9]<-9
-...				#end of Mod 1
+...			#end of Mod 1
 
 #modifying junk[4]: Mod 2
 lw #t1,-60($fp)		#t1<-junk[4]
