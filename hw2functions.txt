@@ -17,7 +17,7 @@ sw $t1,-40($fp)		#junk[1]<-1
 ...
 addi $t1,$t1,1  	#t1<-9
 sw $t1,-8($fp)		#junk[9]<-9
-...					#end of Mod 1
+...					      #end of Mod 1
 
 #modifying junk[4]: Mod 2
 lw #t1,-60($fp)		#t1<-junk[4]
@@ -25,34 +25,34 @@ addi $t1,$t1,2		#t1<-junk[4]+2
 lw $t2,-16($fp)		#t2<-magic[5]
 sub $t1,$t1,$t2		#t1<-junk[4]+2-magic[5]
 sw $t1,-60($fp)		#junk[4]<-junk[4]+2-magic[5]
-...					#end of Mod 2
+...					      #end of Mod 2
 
 #modifying else return: Mod 3
 addi $sp,$sp,-8		#adding 2 byte in stack for 5th and 6th args
 sw $t6,20($sp)		#push t6(6th arg) below ("above") t5 in stack
 sw $t5,16($sp)		#push t5(5th arg) below ("above") a3
 sw $a3,12($sp) 		#push a3
-sw $a2,8($sp)		#push a2
-sw $a1,4($sp)		#push a1
-sw $a0,0($sp)		#push a0
-jal bar				#call bar(n,1,2,3,4,5)
+sw $a2,8($sp)		  #push a2
+sw $a1,4($sp)		  #push a1
+sw $a0,0($sp)		  #push a0
+jal bar				    #call bar(n,1,2,3,4,5)
 lw $t6,20($sp)		#pop t6(6th arg)
 lw $t5,16($sp)		#pop t5(5th arg)
 lw $a3,12($sp) 		#pop a3
-lw $a2,8($sp)		#pop a2
-lw $a1,4($sp)		#pop a1
-lw $a0,0($sp)		#pop a0
+lw $a2,8($sp)		  #pop a2
+lw $a1,4($sp)		  #pop a1
+lw $a0,0($sp)		  #pop a0
 addi $sp,$sp,8		#reclaim space from 4th and 5th args
 add $t2,$v0,$zer0	#t2<-bar(n,1,2,3,4,5)
 add $t2,$t2,$t2		#t2<-2*bar(n,1,2,3,4,5)
 #Call foo(n-1)
 addi $sp,$sp,-4		#push 
-sw $a0,0($sp)		#push a0
+sw $a0,0($sp)		  #push a0
 addi $a0,$a0,-1		#a0<-n-1
-jal foo				#call foo(n-1)
-lw $a0,0($sp)		#pop a0
+jal foo				    #call foo(n-1)
+lw $a0,0($sp)		  #pop a0
 addi $sp,$sp,4		#pop 
 lw $t1,-28($sp)		#t1<-junk[4]
 add $v0,$v0,$t1		#v0<-foo(n-1)+junk[4]
 add $v0,$v0,$t2		#v0<-2*bar(n,1,2,3,4,5)+junk[4]+foo(n-1)
-...					#end of Mod 3
+...					      #end of Mod 3
