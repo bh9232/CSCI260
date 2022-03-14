@@ -49,7 +49,7 @@ add $t2,$t2,$t2		#t2<-2*bar(n,1,2,3,4,5)
 addi $sp,$sp,-4		#push 
 sw $a0,0($sp)		#push a0
 addi $a0,$a0,-1		#a0<-n-1
-jal foo				#call foo(n-1)
+jal foo			#call foo(n-1)
 lw $a0,0($sp)		#pop a0
 addi $sp,$sp,4		#pop 
 lw $t1,-28($sp)		#t1<-junk[4]
