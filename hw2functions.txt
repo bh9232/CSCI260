@@ -1,28 +1,30 @@
 Minsky
 
-#init magic: Mod 1
-addi $t1,$zero,0	#t1<-0
-sw $t1,-76($fp)		#magic[0]<-0
-addi $t1,$zero,1 	#t1<-1
-sw $t1,-72($fp)		#magic[1]<-1
-...
-addi $t1,$t1,1 		#t1<-9
-sw $t1,-48($fp) 	#magic[7]<-7
-
 #modified init junk
 addi $t1,$zero,0	#t1<-0
-sw $t1,-44($fp)		#junk[0]<-0
+sw $t1,-76($fp)		#junk[0]<-0
 addi $t1,$zero,1 	#t1<-1
-sw $t1,-40($fp)		#junk[1]<-1
+sw $t1,-72($fp)		#junk[1]<-1
 ...
-addi $t1,$t1,1  	#t1<-9
-sw $t1,-8($fp)		#junk[9]<-9
+addi $t1,$t1,1 		#t1<-9
+sw $t1,-40($fp) 	#junk[9]<-9
+
+#init magic: Mod 1
+addi $t1,$zero,0	#t1<-0
+sw $t1,-36($fp)		#magic[0]<-0
+addi $t1,$zero,1 	#t1<-1
+sw $t1,-32($fp)		#magic[1]<-1
+...
+addi $t1,$t1,1  	#t1<-7
+sw $t1,-8($fp)		#magic[7]<-7
 ...					#end of Mod 1
 
-#modifying: Mod 2
+#modifying junk[4]: Mod 2
 lw #t1,-60($fp)		#t1<-junk[4]
 addi $t1,$t1,2		#t1<-junk[4]+2
 lw $t2,-16($fp)		#t2<-magic[5]
 sub $t1,$t1,$t2		#t1<-junk[4]+2-magic[5]
 sw $t1,-60($fp)		#junk[4]<-junk[4]+2-magic[5]
 ...					#end of Mod 2
+
+#modifying else return: Mod 3
