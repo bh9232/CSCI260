@@ -6,7 +6,7 @@ sw $t1,-76($fp)		#magic[0]<-0
 addi $t1,$zero,1 	#t1<-1
 sw $t1,-72($fp)		#magic[1]<-1
 ...
-addi $t1,$t1,1 		#t1<-9
+addi $t1,$t1,1 		#t1<-9																							
 sw $t1,-48($fp) 	#magic[7]<-7
 
 #modified init junk
@@ -28,7 +28,12 @@ sw $t1,-60($fp)		#junk[4]<-junk[4]+2-magic[5]
 ...			#end of Mod 2
 
 #modifying else return: Mod 3
-addi $sp,$sp,-8		#adding 2 byte in stack for 5th and 6th args
+addi $a1,$zero,1 	#a1<-1
+addi $a2,$zero,2 	#a2<-2
+addi $a3,$zero,3 	#a3<-3
+addi $t5,$zero,4 	#t5<-4
+addi $t6,$zero,5 	#t6<-5
+addi $sp,$sp,-24	#add space for the 6 args
 sw $t6,20($sp)		#push t6(6th arg) below ("above") t5 in stack
 sw $t5,16($sp)		#push t5(5th arg) below ("above") a3
 sw $a3,12($sp) 		#push a3
@@ -42,7 +47,7 @@ lw $a3,12($sp) 		#pop a3
 lw $a2,8($sp)		#pop a2
 lw $a1,4($sp)		#pop a1
 lw $a0,0($sp)		#pop a0
-addi $sp,$sp,8		#reclaim space from 4th and 5th args
+addi $sp,$sp,24		#reclaim space from 6 args
 add $t2,$v0,$zero	#t2<-bar(n,1,2,3,4,5)
 add $t2,$t2,$t2		#t2<-2*bar(n,1,2,3,4,5)
 #Call foo(n-1)
