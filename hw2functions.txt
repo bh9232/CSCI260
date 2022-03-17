@@ -1,62 +1,75 @@
 #Minsky
 
-#init magic: Mod 1
-addi $t1,$zero,0	#t1<-0
-sw $t1,-76($fp)		#magic[0]<-0
-addi $t1,$zero,1 	#t1<-1
+# Allocate Registers: x→$s0, y→$s1
+Main: 
+add $t0,$s1,$s1 	# $t0 ← 2y
+add $t0,$t0,$t0 	# $t0 ← 4y
+addi $t0,$t0,4 		# $t0 ← 4y+4
+addi $sp,$sp,-4 	# Push $t0
+sw $t0,0($sp)
+add $a0,$t0,$zero 	# arg0 ← 4y+4
+jal Foo 		# Call foo
+lw $t0,0($sp ) 		# Pop $t0
+addi $sp,$sp,4 		#pop
+add $s0,$v0,$v0 	# x ← 2*foo(4*y+4)
+add $s0,$t0,$s0 	# x ← x+4*y+4
+... # End of Main
+#Mod 1
+Foo: 
+addi $sp,$sp,-80	#Push
+sw $ra,76($sp) 		#ra
+sw $fp,72($sp)		#fp
+addi $fp,$sp,76 	#Establish frame
+addi $t1,$zero,0 	#t1 ← 0
+sw $t1,-44($fp) 	#junk[0] ← 0
+addi $t1,$zero,1 	#t1 ← 1
+sw $t1,-40($fp) 	#junk[1] ← 1
 ...
-sw $t1,-48($fp) 	#magic[7]<-7
-
-#modified init junk
-addi $t1,$zero,0	#t1<-0
-sw $t1,-44($fp)		#junk[0]<-0
-addi $t1,$zero,1 	#t1<-1
-sw $t1,-40($fp)		#junk[1]<-1
-...
-addi $t1,$t1,1  	#t1<-9
-sw $t1,-8($fp)		#junk[9]<-9
-...			#end of Mod 1
-
-#modifying junk[4]: Mod 2
-lw $t1,-60($fp)		#t1<-junk[4]
-addi $t1,$t1,2		#t1<-junk[4]+2
-lw $t2,-16($fp)		#t2<-magic[5]
-sub $t1,$t1,$t2		#t1<-junk[4]+2-magic[5]
-sw $t1,-60($fp)		#junk[4]<-junk[4]+2-magic[5]
-...			#end of Mod 2
-
-#modifying else return: Mod 3
+addi $t1,$zero,9 	#t1 ← 9
+sw $t1,-8($fp) 		#junk[9] ← 9
+#End of Mod 1
+#Mod 2
+lw $t1,-28($fp) 	#t1 ← junk[4]
+lw $t2,-56($fp) 	#t2<-magic[5]
+addi $t1,$t1,2 		#t1 ← junk[4]+2
+sub $t1,$t1,$t2 	#t1<-junk[4]+2-magic[5]
+sw $t1,-28($fp) 	#junk[4] ← junk[4]+2-magic[5]
+#End of Mod 2
+slti $t0,$a0,1 # $t0 ← 1 if n<1; else 0
+bne $t0,$zero,RetOne 	# Return 1 if n<1
+#Mod 3
+#call bar(n,1,2,3,4,5)
+addi $sp,$sp,-12	#add space to store a0<-n, t5<-4, t6<-5
 addi $a1,$zero,1 	#a1<-1
 addi $a2,$zero,2 	#a2<-2
 addi $a3,$zero,3 	#a3<-3
 addi $t5,$zero,4 	#t5<-4
 addi $t6,$zero,5 	#t6<-5
-addi $sp,$sp,-24	#add space for the 6 args
-sw $t6,20($sp)		#push t6(6th arg) below ("above") t5 in stack
-sw $t5,16($sp)		#push t5(5th arg) below ("above") a3
-sw $a3,12($sp) 		#push a3
-sw $a2,8($sp)		#push a2
-sw $a1,4($sp)		#push a1
+sw $t6,8($sp)		#push t6(6th arg) 
+sw $t5,4($sp)		#push t5(5th arg) 
 sw $a0,0($sp)		#push a0
 jal bar			#call bar(n,1,2,3,4,5)
 lw $t6,20($sp)		#pop t6(6th arg)
 lw $t5,16($sp)		#pop t5(5th arg)
-lw $a3,12($sp) 		#pop a3
-lw $a2,8($sp)		#pop a2
-lw $a1,4($sp)		#pop a1
 lw $a0,0($sp)		#pop a0
-addi $sp,$sp,24		#reclaim space from 6 args
-add $t2,$v0,$zero	#t2<-bar(n,1,2,3,4,5)
-add $t2,$t2,$t2		#t2<-2*bar(n,1,2,3,4,5)
-
-#Call foo(n-1)
+addi $sp,$sp,12		#reclaim space
+add $t2,$v0,$v0		#t2<-2*bar(n,1,2,3,4,5)
+# Call foo(n-1)
 addi $sp,$sp,-4		#push 
 sw $a0,0($sp)		#push a0
 addi $a0,$a0,-1		#a0<-n-1
-jal foo			#call foo(n-1)
+jal Foo			#call foo(n-1)
 lw $a0,0($sp)		#pop a0
 addi $sp,$sp,4		#pop 
 lw $t1,-28($sp)		#t1<-junk[4]
 add $v0,$v0,$t1		#v0<-foo(n-1)+junk[4]
 add $v0,$v0,$t2		#v0<-2*bar(n,1,2,3,4,5)+junk[4]+foo(n-1)
-...			#end of Mod 3
+j Ret 			# Return
+#End of Mod 3
+RetOne: 
+addi $v0,$zero,1	# $v0 ← 1
+Ret: 
+lw $fp,40($sp) 		# pop $fp
+lw $ra,44($sp) 		# pop $ra
+addi $sp,$sp,48 	# reclaim stack space
+jr $ra 			# return to caller
