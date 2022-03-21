@@ -20,20 +20,20 @@ lw $s1,0($s1)		#s1<-n
 
 color:
 #green color setup
-la $t1,c2r		#t1<-c2r
+la $t1,c2r		#t1<-addr of c2r
 lw $t1,c2r		#t1<-value of c2r
-la $t2,c2g		#t2<-c2g
+la $t2,c2g		#t2<-addr of c2g
 lw $t2,c2g		#t2<-value of c2g
-la $t3,c2b		#t3<-c2b
+la $t3,c2b		#t3<-addr of c2b
 lw $t3,c2b		#t3<-value of c2b
 add $s2,$t1,$t2		#s2<-t1+t2
 add $s2,$s2,$t3		#s2<-s2+t3, green
 #red color setup
-la $t1,c1r		#t1<-c1r
+la $t1,c1r		#t1<-addr of c1r
 lw $t1,c1r		#t1<-value of c1r
-la $t2,c1g		#t2<-c2g
+la $t2,c1g		#t2<-addr of c2g
 lw $t2,c1g		#t2<-value of c1g
-la $t3,c1b		#t3<-c2b
+la $t3,c1b		#t3<-addr of c2b
 lw $t3,c1b		#t3<-value of c1b
 add $s3,$t1,$t2		#s3<-t1+t2
 add $s3,$s3,$t3		#s3<-s3+t3, red
