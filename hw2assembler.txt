@@ -1,0 +1,19 @@
+Minsky
+
+move $gp,$t1:
+add $gp,$zero,$t1	#gp<-t1
+
+addi $s3,$s3,imm32:
+lui $at,imm32hi		#at<-imm32hi
+ori $at,$at,imm32lo	#at<-at|imm32lo (at<-imm32)
+add $s3,$s3,$at 	#s3<-s3+at
+
+j imm32:
+
+
+sw $t2,imm32($t1):
+
+
+bgt $t2,$t3,L:
+slt $at,$t3,$t2
+bne $at,$zero,L
