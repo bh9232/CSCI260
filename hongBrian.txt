@@ -20,20 +20,14 @@ lw $s1,0($s1)		#s1<-n
 
 color:
 #green color setup
-la $t1,c2r		#t1<-addr of c2r
 lw $t1,c2r		#t1<-value of c2r
-la $t2,c2g		#t2<-addr of c2g
 lw $t2,c2g		#t2<-value of c2g
-la $t3,c2b		#t3<-addr of c2b
 lw $t3,c2b		#t3<-value of c2b
 add $s2,$t1,$t2		#s2<-t1+t2
 add $s2,$s2,$t3		#s2<-s2+t3, green
 #red color setup
-la $t1,c1r		#t1<-addr of c1r
 lw $t1,c1r		#t1<-value of c1r
-la $t2,c1g		#t2<-addr of c2g
 lw $t2,c1g		#t2<-value of c1g
-la $t3,c1b		#t3<-addr of c2b
 lw $t3,c1b		#t3<-value of c1b
 add $s3,$t1,$t2		#s3<-t1+t2
 add $s3,$s3,$t3		#s3<-s3+t3, red
@@ -51,11 +45,17 @@ sw $t1,0($t0)		#put color t1 in loaction t0
 addi $t0,$t0,4		#t1<-t1+4
 addi $t8,$t8,1		#t8<-t8+1
 bne $t8,$t9,yellow	#if t8!=t9 (if counter is not at last pixel of screen), goto yellow
-
-check:
 #reset
 sub $t9,$t9,$t9		#t9<-0
 sub $t8,$t8,$t8		#t8<-0
+
+check:
+#if m is zero
+beq $s0,0,end		#if m=0 goto end (immpossible to have 2 squares and diagonals)
+#if n is zero
+beq $s1,0,end		#if n=0 goto end (immpossible to have 2 squares and diagonals)
+#if m = n
+beq $s0,$s1,end		#if m=n goto end (immpossible to have 2 squares and diagonals)
 #if m is odd
 andi $t1,$s0,1		#t1<-1 if m is odd; else t1<-0
 beq $t1,1,end		#if m is odd, goto end (cannot be cetnered so impossible)
@@ -79,7 +79,7 @@ addi $t9,$zero,256	#half of total columns
 la $t0,frameBuffer	#reset position of pixel pointer
 srl $t1,$s1,1		#t1<-n/2
 sub $t2,$t8,$t1		#t2<-128-n/2
-sll $t2, $t2, 11	#t2<-t2*2^11 (128-n/2*2048), offset for one row
+sll $t2,$t2,11		#t2<-t2*2^11 (128-n/2*2048), offset for one row
 sub $t3,$t9,$t1		#t3<-256-n/2
 sll $t3,$t3,2		#t3<-t3*4, offset for one pixel
 add $t2,$t2,$t3		#t2<-t2+t3, offset for start point of outer square
