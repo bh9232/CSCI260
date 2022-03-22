@@ -9,7 +9,10 @@ ori $at,$at,imm32lo	#at<-at|imm32lo (at<-imm32)
 add $s3,$s3,$at 	#s3<-s3+at
 
 j imm32:
-
+addi $at,$zero,4
+ori $at,$at,imm32
+sll $at,$at,2
+j $at
 
 sw $t2,imm32($t1):
 
