@@ -13,10 +13,8 @@ c2b: 		.word 	0x0
 drawLine: la $t0,frameBuffer		#location of pixel pointer
 
 #alloc
-la $s0,m		#s0<-addr of m
-lw $s0,0($s0)		#s0<-m
-la $s1,n 		#s1<-addr of n
-lw $s1,0($s1)		#s1<-n
+lw $s0,m		#s0<-m
+lw $s1,n		#s1<-n
 
 color:
 #green color setup
